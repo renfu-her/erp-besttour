@@ -8,7 +8,27 @@
             <button class="btn btn-link" id="themeToggle">
                 <i class="bi bi-moon-stars"></i>
             </button>
-            <img src="https://via.placeholder.com/32" class="rounded-circle ms-2" alt="User">
+            <div class="dropdown">
+                <button class="btn btn-link p-0 ms-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-regular fa-circle-user fs-4"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <h6 class="dropdown-header">使用者內容</h6>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                            @csrf
+                            <button type="submit" class="dropdown-item text-danger">
+                                <i class="fa-solid fa-right-from-bracket me-2"></i>登出
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>

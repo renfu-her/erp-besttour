@@ -10,6 +10,7 @@ Route::get('/', function () {
 Route::controller(AuthController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login');
     Route::post('/login', 'login')->name('login.post');
+    Route::post('/logout', 'logout')->name('logout');
 });
 
 Route::middleware('auth.token')->group(function () {
