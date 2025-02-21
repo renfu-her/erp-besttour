@@ -10,7 +10,7 @@ class ApiService
 
     public function __construct()
     {
-        $this->baseUrl = 'https://api-dev.hsihung.com.tw/api';
+        $this->baseUrl = 'https://api-dev.besttour.com.tw/api';
     }
 
     /**
