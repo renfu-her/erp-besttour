@@ -46,15 +46,47 @@ class ApiService
      */
     public function authenticatedRequest($method, $endpoint, $data = [])
     {
-        $http = $this->authenticatedHttp();
+        set_time_limit(0);
+        $maxRetries = 3;  // 最大重試次數
+        $retryDelay = 1000;  // 重試延遲（毫秒）
+        $attempt = 0;
 
-        return match (strtoupper($method)) {
-            'GET' => $http->get($this->baseUrl . $endpoint, $data),
-            'POST' => $http->post($this->baseUrl . $endpoint, $data),
-            'PUT' => $http->put($this->baseUrl . $endpoint, $data),
-            'DELETE' => $http->delete($this->baseUrl . $endpoint, $data),
-            default => throw new \InvalidArgumentException('不支援的 HTTP 方法'),
-        };
+        while ($attempt < $maxRetries) {
+            try {
+                $http = $this->authenticatedHttp();
+
+                $response = match (strtoupper($method)) {
+                    'GET' => $http->timeout(60)->get($this->baseUrl . $endpoint, $data),
+                    'POST' => $http->timeout(60)->post($this->baseUrl . $endpoint, $data),
+                    'PUT' => $http->timeout(60)->put($this->baseUrl . $endpoint, $data),
+                    'DELETE' => $http->timeout(60)->delete($this->baseUrl . $endpoint, $data),
+                    default => throw new \InvalidArgumentException('不支援的 HTTP 方法'),
+                };
+
+                return $response;
+            } catch (\Exception $e) {
+                $attempt++;
+
+                // 如果是最後一次嘗試，拋出異常
+                if ($attempt === $maxRetries) {
+                    if (str_contains($e->getMessage(), 'Operation timed out')) {
+                        return response()->json([
+                            'code' => '99',
+                            'msg' => '連線逾時，請稍後再試'
+                        ]);
+                    }
+                    return response()->json([
+                        'code' => '99',
+                        'msg' => '系統錯誤，請稍後再試'
+                    ]);
+                }
+
+                // 等待一段時間後重試
+                usleep($retryDelay * 1000);
+                // 每次重試增加延遲時間
+                $retryDelay *= 2;
+            }
+        }
     }
 
     public function formatCountryCode($twoCode, $threeCode)

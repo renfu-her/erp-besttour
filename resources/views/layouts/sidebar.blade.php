@@ -69,11 +69,11 @@
                             </a>
                             <div class="collapse" id="countrySubmenu">
                                 <nav class="nav flex-column ms-3">
-                                    <a class="nav-link" href="#" onclick="showCountryList()">
+                                    <a class="nav-link" href="{{ route('country.index') }}">
                                         <i class="bi bi-list me-2"></i>
                                         <span class="nav-text">列表</span>
                                     </a>
-                                    <a class="nav-link" href="#" onclick="showCountryForm()">
+                                    <a class="nav-link" href="{{ route('country.create') }}">
                                         <i class="bi bi-plus-lg me-2"></i>
                                         <span class="nav-text">新增</span>
                                     </a>
@@ -93,11 +93,11 @@
                             </a>
                             <div class="collapse" id="citySubmenu">
                                 <nav class="nav flex-column ms-3">
-                                    <a class="nav-link" href="#" onclick="showCityList()">
+                                    <a class="nav-link" href="{{ route('city.index') }}">
                                         <i class="bi bi-list me-2"></i>
                                         <span class="nav-text">列表</span>
                                     </a>
-                                    <a class="nav-link" href="#" onclick="showCityForm()">
+                                    <a class="nav-link" href="{{ route('city.create') }}">
                                         <i class="bi bi-plus-lg me-2"></i>
                                         <span class="nav-text">新增</span>
                                     </a>
