@@ -9,9 +9,16 @@ class CheckToken
 {
     public function handle(Request $request, Closure $next)
     {
-        if (!session()->has('token')) {
-            return redirect()->route('login')->with('error', '請先登入');
+        $token = $request->header('Authorization');
+
+        if (!$token) {
+            return response()->json([
+                'code' => '01',
+                'msg' => '未授權的請求'
+            ], 401);
         }
+
+        // 這裡可以添加更多的token驗證邏輯
 
         return $next($request);
     }

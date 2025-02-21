@@ -56,4 +56,23 @@ class ApiService
             default => throw new \InvalidArgumentException('不支援的 HTTP 方法'),
         };
     }
+
+    public function formatCountryCode($twoCode, $threeCode)
+    {
+        return [
+            'two' => $twoCode,
+            'three' => $threeCode
+        ];
+    }
+
+    public function validateCountryData($request)
+    {
+        return $request->validate([
+            'continent_id' => 'required|exists:continents,id',
+            'name' => 'required|string|max:255',
+            'en_name' => 'required|string|max:255',
+            'code3' => 'required|string|size:3|unique:countries,code_three',
+            'tel_area' => 'required|string|max:10'
+        ]);
+    }
 }
