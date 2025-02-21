@@ -18,7 +18,7 @@ class ApiService
      */
     public function login($id, $password)
     {
-        return Http::post($this->baseUrl . '/auth/login', [
+        return Http::withoutVerifying()->post($this->baseUrl . '/auth/login', [
             'id' => $id,
             'pw' => $password
         ]);
@@ -47,7 +47,7 @@ class ApiService
     public function authenticatedRequest($method, $endpoint, $data = [])
     {
         $http = $this->authenticatedHttp();
-        
+
         return match (strtoupper($method)) {
             'GET' => $http->get($this->baseUrl . $endpoint, $data),
             'POST' => $http->post($this->baseUrl . $endpoint, $data),
@@ -56,4 +56,4 @@ class ApiService
             default => throw new \InvalidArgumentException('不支援的 HTTP 方法'),
         };
     }
-} 
+}

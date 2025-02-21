@@ -15,7 +15,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'auth.token' => CheckToken::class,
         ]);
+
+        // 配置 CSRF 例外路由
+        $middleware->validateCsrfTokens(
+            except: ['api/*', 'login']
+        );
     })
-    ->withExceptions(function (Exceptions $exceptions) {
-        //
-    })->create();
+    ->withExceptions(function (Exceptions $exceptions) {})->create();
