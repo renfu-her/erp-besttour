@@ -22,18 +22,18 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         // try {
-            $response = $this->apiService->login($request->id, $request->pw);
+        $response = $this->apiService->login($request->id, $request->pw);
 
+        if ($response->successful()) {
             $data = $response->json();
-
             if ($data['code'] === '00') {
-                // 登入成功，儲存 token 到 session
+                // 確保將 token 存入 session
                 session(['token' => $data['data']['token']]);
-
                 return redirect()->route('dashboard');
             }
+        }
 
-            return back()->with('error', '登入失敗：' . $data['msg']);
+        return back()->with('error', '登入失敗');
         // } catch (\Exception $e) {
         //     return back()->with('error', '登入失敗：系統錯誤');
         // }
