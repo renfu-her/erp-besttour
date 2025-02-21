@@ -62,7 +62,27 @@
 
 @push('scripts')
     <script>
-        // 修改 token 獲取方式
+        document.addEventListener('DOMContentLoaded', function() {
+            // 檢查是否有存儲的操作
+            const currentAction = sessionStorage.getItem('currentAction');
+            if (currentAction) {
+                // 執行相應的載入函數
+                switch (currentAction) {
+                    case 'continents':
+                        loadContinents();
+                        break;
+                    case 'countries':
+                        loadCountries();
+                        break;
+                    case 'cities':
+                        loadCities();
+                        break;
+                }
+                // 清除存儲的操作
+                sessionStorage.removeItem('currentAction');
+            }
+        });
+
         function getToken() {
             // 直接返回完整的 Authorization header 值
             return 'Bearer {{ session('token') }}';
@@ -132,79 +152,79 @@
             switch (type) {
                 case 'continents':
                     html += `
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>代碼</th>
-                        <th>名稱</th>
-                        <th>英文名稱</th>
-                        <th>建立時間</th>
-                    </tr>
-                </thead>
-                <tbody>
-            `;
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>代碼</th>
+                <th>名稱</th>
+                <th>英文名稱</th>
+                <th>建立時間</th>
+            </tr>
+        </thead>
+        <tbody>
+    `;
                     data.forEach(item => {
                         html += `
-                    <tr>
-                        <td>${item.id}</td>
-                        <td>${item.code}</td>
-                        <td>${item.name}</td>
-                        <td>${item.en_name || '-'}</td>
-                        <td>${item.created_at}</td>
-                    </tr>
-                `;
+            <tr>
+                <td>${item.id}</td>
+                <td>${item.code}</td>
+                <td>${item.name}</td>
+                <td>${item.en_name || '-'}</td>
+                <td>${item.created_at}</td>
+            </tr>
+        `;
                     });
                     break;
 
                 case 'countries':
                     html += `
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>國家代碼</th>
-                        <th>名稱</th>
-                        <th>英文名稱</th>
-                        <th>電話區號</th>
-                    </tr>
-                </thead>
-                <tbody>
-            `;
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>國家代碼</th>
+                <th>名稱</th>
+                <th>英文名稱</th>
+                <th>電話區號</th>
+            </tr>
+        </thead>
+        <tbody>
+    `;
                     data.forEach(continent => {
                         continent.country.forEach(item => {
                             html += `
-                        <tr>
-                            <td>${item.id}</td>
-                            <td>${item.code.two}/${item.code.three}</td>
-                            <td>${item.name}</td>
-                            <td>${item.e_name}</td>
-                            <td>${item.tel_area}</td>
-                        </tr>
-                    `;
+                <tr>
+                    <td>${item.id}</td>
+                    <td>${item.code.two}/${item.code.three}</td>
+                    <td>${item.name}</td>
+                    <td>${item.e_name}</td>
+                    <td>${item.tel_area}</td>
+                </tr>
+            `;
                         });
                     });
                     break;
 
                 case 'cities':
                     html += `
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>名稱</th>
-                        <th>英文名稱</th>
-                        <th>代碼</th>
-                    </tr>
-                </thead>
-                <tbody>
-            `;
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>名稱</th>
+                <th>英文名稱</th>
+                <th>代碼</th>
+            </tr>
+        </thead>
+        <tbody>
+    `;
                     data.forEach(item => {
                         html += `
-                    <tr>
-                        <td>${item.id}</td>
-                        <td>${item.name}</td>
-                        <td>${item.en_name}</td>
-                        <td>${item.code}</td>
-                    </tr>
-                `;
+            <tr>
+                <td>${item.id}</td>
+                <td>${item.name}</td>
+                <td>${item.en_name}</td>
+                <td>${item.code}</td>
+            </tr>
+        `;
                     });
                     break;
             }

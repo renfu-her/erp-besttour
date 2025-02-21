@@ -29,7 +29,7 @@ class ApiService
      */
     protected function withToken($token)
     {
-        return Http::withToken($token);
+        return Http::withoutVerifying()->withToken($token);
     }
 
     /**

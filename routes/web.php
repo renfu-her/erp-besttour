@@ -21,17 +21,22 @@ Route::middleware('auth.token')->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
-    // 添加選單路由
+    // 資訊管理路由
     Route::get('/information', function () {
         return view('information.index');
     })->name('information.index');
 });
 
 // Information Routes
-Route::group(['prefix' => 'information', 'middleware' => ['check.token']], function () {
-    Route::get('/continent', [ContinentController::class, 'index']);
-    Route::post('/continent', [ContinentController::class, 'store']);
-    Route::get('/country', [CountryController::class, 'index']);
-    Route::post('/country', [CountryController::class, 'store']);
-    Route::get('/city', [CityController::class, 'index']);
+Route::group(['prefix' => 'information', 'middleware' => ['auth.token']], function () {
+    // 大洲管理
+    Route::get('/continent', [ContinentController::class, 'index'])->name('continent.index');
+    Route::get('/continent/create', [ContinentController::class, 'create'])->name('continent.create');
+    Route::post('/continent', [ContinentController::class, 'store'])->name('continent.store');
+    Route::get('/continent/{id}/edit', [ContinentController::class, 'edit'])->name('continent.edit');
+    Route::put('/continent/{id}', [ContinentController::class, 'update'])->name('continent.update');
+
+    // API 路由
+    Route::get('/api/continent', [ContinentController::class, 'apiIndex']);
+    Route::post('/api/continent', [ContinentController::class, 'apiStore']);
 });

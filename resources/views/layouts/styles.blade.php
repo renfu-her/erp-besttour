@@ -1,80 +1,74 @@
 <style>
     /* 側邊欄樣式 */
     .sidebar {
-        min-height: 100vh;
-        background-color: var(--bs-dark);
-        width: 250px;
         position: fixed;
-        left: 0;
         top: 0;
+        left: 0;
+        height: 100vh;
+        width: 260px;
+        background-color: #2c3e50;
+        color: #fff;
+        transition: all 0.3s;
         z-index: 1000;
-        transition: all 0.3s ease;
-        display: flex;
-        flex-direction: column;
     }
 
     .sidebar.collapsed {
-        width: 60px;
+        margin-left: -260px;
     }
 
     .sidebar-header {
-        display: flex;
-        align-items: center;
         padding: 1rem;
-        min-height: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
     .sidebar-brand {
-        display: flex;
-        align-items: center;
-        color: var(--bs-light);
+        color: #fff;
         text-decoration: none;
-        flex: 1;
-    }
-
-    .close-sidebar {
-        display: none;
-        color: var(--bs-light);
-        background: none;
-        border: none;
-        padding: 0.5rem;
-        position: absolute;
-        right: 0.5rem;
-        top: 0.5rem;
     }
 
     .sidebar .nav-link {
-        color: var(--bs-light);
-        padding: 0.5rem 1rem;
-        white-space: nowrap;
-        overflow: hidden;
+        color: rgba(255,255,255,0.8);
+        padding: 0.8rem 1rem;
+        transition: all 0.3s;
     }
 
     .sidebar .nav-link:hover {
-        background-color: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        background-color: rgba(255,255,255,0.1);
     }
 
     .sidebar .nav-link.active {
-        background-color: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        background-color: rgba(255,255,255,0.2);
     }
 
-    .sidebar .nav-text {
-        transition: opacity 0.3s ease;
-    }
-
-    .sidebar.collapsed .nav-text {
-        opacity: 0;
-        display: none;
-    }
-
-    /* 主要內容區域 */
     .main-content {
-        margin-left: 250px;
-        transition: all 0.3s ease;
+        margin-left: 260px;
+        transition: all 0.3s;
     }
 
     .main-content.expanded {
-        margin-left: 60px;
+        margin-left: 0;
+    }
+
+    .close-sidebar {
+        background: none;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    #informationSubmenu .nav-link {
+        padding-left: 2rem;
+        font-size: 0.9rem;
+    }
+
+    .nav-text {
+        display: inline-block;
+        vertical-align: middle;
     }
 
     /* 卡片樣式 */
